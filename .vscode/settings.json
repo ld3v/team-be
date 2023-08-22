@@ -1,0 +1,26 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.prettier": true
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#6835a3",
+    "activityBar.activeBackground": "#6835a3",
+    "activityBar.foreground": "#ffffff",
+    "activityBar.inactiveForeground": "#fae4f6",
+    "activityBar.activeBorder": "#ffffff",
+    "activityBarBadge.background": "#fae4f6",
+    "activityBarBadge.foreground": "#6835a3",
+    "titleBar.activeBackground": "#6835a3",
+    "titleBar.inactiveBackground": "#6835a3",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveForeground": "#e7e7e799",
+    "statusBar.background": "#6835a3",
+    "statusBarItem.hoverBackground": "#626262",
+    "statusBar.foreground": "#ffffff",
+  },
+  "cSpell.words": [
+    "datasource"
+  ],
+}
