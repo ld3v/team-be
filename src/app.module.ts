@@ -9,6 +9,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { AccountModule } from 'src/account/account.module';
 import { IterationModule } from './iteration/iteration.module';
 import { BacklogModule } from './backlog/backlog.module';
+import { TaskModule } from './task/task.module';
+import { MemberModule } from './member/member.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { BacklogModule } from './backlog/backlog.module';
     DatabaseModule,
     IterationModule,
     BacklogModule,
+    TaskModule,
+    MemberModule,
   ],
   controllers: [AppController],
 })

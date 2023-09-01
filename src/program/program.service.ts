@@ -1,4 +1,9 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import {
   IProgramRepository,
   I_PROGRAM_REPOSITORY,
@@ -10,7 +15,6 @@ import {
 } from './interfaces';
 import { CreateProgramDTO } from './dto';
 import { Account, Program } from 'src/app/datasource/entities';
-import ServiceError from 'common/errors/service.error';
 import { IProjectService, I_PROJECT_SERVICE } from 'src/project/interfaces';
 import { IAccountService, I_ACCOUNT_SERVICE } from 'src/account/interfaces';
 import {
@@ -19,6 +23,7 @@ import {
   TSearchOptions,
 } from 'src/app/datasource/repositories';
 import { TTransformResult } from 'src/app/interfaces/transform';
+import MESSAGES from 'common/messages';
 
 @Injectable()
 export class ProgramService implements IProgramService {
@@ -36,36 +41,60 @@ export class ProgramService implements IProgramService {
     account: Account,
   ): Promise<Program> {
     try {
-      return await this.programRepository.create({
+      const newItem = await this.programRepository.create({
         ...data,
         members: [account],
       });
+      return await this.getById(newItem.id);
     } catch (error) {
-      throw new ServiceError(error.message, ProgramService.name);
+      throw error;
     }
   }
 
   public async search(
-    requester: Account,
     searchOptions: TSearchOptions,
     paginationOptions: TPaginationOptions,
+    requester?: Account,
   ): Promise<TPaginationResult<Program>> {
     try {
-      return await this.programRepository.getPrograms(
+      return await this.programRepository.getItems(
         searchOptions,
         paginationOptions,
         requester,
       );
     } catch (error) {
-      throw new ServiceError(error.message, ProgramService.name);
+      throw error;
     }
   }
 
-  public async getById(id: string, requester: Account): Promise<Program> {
+  public async getById(
+    id: string,
+    requester?: Account,
+    throwErrIfNotFound = false,
+  ): Promise<Program> {
     try {
-      return await this.programRepository.getProgramById(id, requester);
+      const program = await this.programRepository.getById(id, requester);
+      if (!program && throwErrIfNotFound) {
+        throw new BadRequestException(MESSAGES.common.NOT_EXIST('program'));
+      }
+      return program;
     } catch (error) {
-      throw new ServiceError(error.message, ProgramService.name);
+      throw error;
+    }
+  }
+
+  public async getByProjectId(
+    projectId: string,
+    requester: Account,
+  ): Promise<Program> {
+    try {
+      const program = await this.programRepository.getByProjectId(
+        projectId,
+        requester,
+      );
+      return program;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -100,7 +129,7 @@ export class ProgramService implements IProgramService {
       previews: [],
       data: [],
     };
-    programs.forEach((prg) => {
+    programs?.forEach((prg) => {
       res.previews.push(this._transformPreview(prg));
       res.data.push(this._transform(prg));
     });

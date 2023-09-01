@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { IterationController } from './iteration.controller';
 import { IterationService } from './iteration.service';
 import { DatabaseModule } from 'src/app/datasource/database.module';
@@ -6,7 +6,7 @@ import { ProjectModule } from 'src/project/project.module';
 import { I_ITERATION_SERVICE } from './interfaces/iteration.service.interface';
 
 @Module({
-  imports: [DatabaseModule, ProjectModule],
+  imports: [DatabaseModule, forwardRef(() => ProjectModule)],
   controllers: [IterationController],
   providers: [
     {

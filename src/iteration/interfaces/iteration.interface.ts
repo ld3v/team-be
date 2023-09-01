@@ -1,5 +1,6 @@
-import { TIterationEntity } from 'src/app/datasource/interfaces';
+import { TIterationEntity, TTimeRange } from 'src/app/datasource/interfaces';
 import { CreateIterationDTO } from '../dto';
+import { Project } from 'src/app/datasource/entities';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IIterationResponse
@@ -7,13 +8,14 @@ export interface IIterationResponse
   projectId: string;
 }
 
-export type TIterationPreview = Pick<
-  TIterationEntity,
-  'id' | 'name' | 'description' | 'isClosed'
->;
+export interface IIterationPreview
+  extends Pick<TIterationEntity, 'id' | 'name' | 'description' | 'isClosed'> {
+  dates: TTimeRange;
+}
 
 export interface ICreateIterationInput
-  extends Omit<CreateIterationDTO, 'startAt' | 'finishAt'> {
+  extends Omit<CreateIterationDTO, 'startAt' | 'finishAt' | 'projectId'> {
+  project: Project;
   startAt: Date;
   finishAt: Date;
 }

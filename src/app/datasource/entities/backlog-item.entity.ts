@@ -15,10 +15,14 @@ export class BacklogItem extends AbstractEntity<BacklogItem> {
   description: string;
 
   @Column({
-    name: 'status',
     default: EBacklogStatus.UNDONE,
   })
   status: EBacklogStatus;
+
+  @Column({
+    default: 10000,
+  })
+  priority: number;
 
   // Relations
   @ManyToOne(() => Project, (prj) => prj.backlog, {

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { AbstractRepository } from 'src/app/datasource/repositories';
-import { BacklogItem, ProjectMember } from '../entities';
+import { BacklogItem } from '../entities';
 import { IBacklogItemRepository } from '../interfaces';
 
 @Injectable()
@@ -11,44 +11,40 @@ export class BacklogItemRepository
   extends AbstractRepository<BacklogItem>
   implements IBacklogItemRepository
 {
-  _getQuery: (memberId: string) => SelectQueryBuilder<BacklogItem>;
+  __query: SelectQueryBuilder<BacklogItem>;
   constructor(
     @InjectRepository(BacklogItem) _repository: Repository<BacklogItem>,
   ) {
     super(_repository);
-    this._getQuery = (memberId) =>
-      this._repository
-        .createQueryBuilder('b')
-        .leftJoinAndSelect('b.project', 'project')
-        .leftJoinAndSelect('b.iteration', 'iteration')
-        .leftJoinAndSelect('project.members', 'member')
-        .andWhere('member.id = :memberId', { memberId });
+    this.__query = this._repository
+      .createQueryBuilder('b')
+      .leftJoinAndSelect('b.tasks', 'task')
+      .leftJoinAndSelect('task.logs', 'log')
+      .leftJoinAndSelect('b.project', 'project')
+      .leftJoinAndSelect('b.iteration', 'iteration')
+      .orderBy('b.priority', 'ASC');
   }
 
   public async getItems(
     projectId: string,
-    requester: ProjectMember,
     iterationId?: string,
   ): Promise<BacklogItem[]> {
-    let _query = this._getQuery(requester.id).andWhere(
-      'project.id = :projectId',
-      { projectId },
-    );
+    let _query = this.__query.andWhere('project.id = :projectId', {
+      projectId,
+    });
     if (iterationId) {
       _query = _query.andWhere('iteration.id = :iterationId', { iterationId });
     }
+    _query = _query
+      .addSelect('SUM(log.timeSpent)', 'totalTimeSpent')
+      .groupBy('b.id');
 
-    const data = await _query.getMany();
+    const data = await _query.getRawMany();
 
     return data;
   }
 
-  public async getItemById(
-    id: string,
-    requester: ProjectMember,
-  ): Promise<BacklogItem> {
-    return await this._getQuery(requester.id)
-      .andWhere('b.id = :id', { id })
-      .getOne();
+  public async findById(id: string): Promise<BacklogItem> {
+    return await this.__query.andWhere('b.id = :id', { id }).getOne();
   }
 }

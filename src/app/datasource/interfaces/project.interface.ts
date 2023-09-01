@@ -1,6 +1,6 @@
 import { TProjectPreview } from 'src/project/interfaces';
 import { TEntityOptionFields } from '.';
-import { Account, MemberWorkload, Project, ProjectMember } from '../entities';
+import { Account, Workload, Project, Member } from '../entities';
 import {
   IRepository,
   TPaginationOptions,
@@ -9,41 +9,37 @@ import {
 } from '../repositories/abstract.repository';
 
 export type TProjectEntity = Omit<Project, TEntityOptionFields>;
-export type TProjectMemberEntity = Omit<ProjectMember, TEntityOptionFields>;
-export type TWorkloadEntity = Omit<MemberWorkload, TEntityOptionFields>;
+export type TProjectMemberEntity = Omit<Member, TEntityOptionFields>;
+export type TWorkloadEntity = Omit<Workload, TEntityOptionFields>;
 
 export const I_PROJECT_REPOSITORY = 'I-PROJECT-REPOSITORY';
-export const I_PROJECT_MEMBER_REPOSITORY = 'I-PROJECT-MEMBER-REPOSITORY';
-export const I_MEMBER_WORKLOAD_REPOSITORY = 'I-MEMBER-WORKLOAD-REPOSITORY';
+export const I_MEMBER_REPOSITORY = 'I-MEMBER-REPOSITORY';
+export const I_WORKLOAD_REPOSITORY = 'I-WORKLOAD-REPOSITORY';
 
 export interface IProjectRepository extends IRepository<Project> {
   getProjects(
     programId: string,
-    requester: Account,
     searchOptions: TSearchOptions,
     pagination: TPaginationOptions,
   ): Promise<TPaginationResult<Project>>;
-  getProjectById(id: string, requester: Account): Promise<Project>;
+  getByBacklogId(backlogId: string): Promise<Project>;
+  getByIterationId(iterationId: string): Promise<Project>;
 }
 
-export interface IProjectMemberRepository extends IRepository<ProjectMember> {
-  getMembers(projectId: string, requester: Account): Promise<ProjectMember[]>;
-  getMemberById(id: string, requester: Account): Promise<ProjectMember>;
-  getMemberByAccount(
-    projectId: string,
-    requester: Account,
-  ): Promise<ProjectMember>;
+export interface IMemberRepository extends IRepository<Member> {
+  getMembersByProjectId(projectId: string): Promise<Member[]>;
+  getMemberByAccount(projectId: string, requester: Account): Promise<Member>;
 }
 
 export interface IWorkloadByUser {
   project: TProjectPreview;
   workload: {
-    week: MemberWorkload['name'];
-    load: MemberWorkload['load'];
+    week: Workload['name'];
+    load: Workload['load'];
   }[];
   memberId: string;
 }
-export interface IWorkloadRepository extends IRepository<MemberWorkload> {
+export interface IWorkloadRepository extends IRepository<Workload> {
   getWorkloads(
     projectId: string,
     memberId?: string,

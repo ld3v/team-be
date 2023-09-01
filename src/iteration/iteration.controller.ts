@@ -1,80 +1,56 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Query,
   Req,
-  Param,
   Inject,
   UseGuards,
+  forwardRef,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   IIterationService,
   IIterationResponse,
   I_ITERATION_SERVICE,
 } from './interfaces';
-import { JwtAuthGuard } from 'src/auth/guards';
+import { JWTAuthGuard } from 'src/auth/guards';
 import ResponseObject from 'common/response';
-import { CreateIterationDTO, SearchProjectsDTO } from './dto';
+import { CreateIterationDTO } from './dto';
 import { IRequestWithAccount } from 'src/auth/interfaces';
 import * as moment from 'moment';
+import { IProjectService, I_PROJECT_SERVICE } from 'src/project/interfaces';
+import MESSAGES from 'common/messages';
 
 @Controller('iterations')
 export class IterationController {
   constructor(
     @Inject(I_ITERATION_SERVICE)
     private readonly iterationService: IIterationService,
+    @Inject(forwardRef(() => I_PROJECT_SERVICE))
+    private readonly projectService: IProjectService,
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JWTAuthGuard)
   public async create(
-    @Body() input: CreateIterationDTO,
+    @Body() { projectId, ...input }: CreateIterationDTO,
     @Req() { user }: IRequestWithAccount,
   ) {
     try {
-      const newIteration = await this.iterationService.create(
-        {
-          ...input,
-          startAt: moment(input.startAt).startOf('day').toDate(),
-          finishAt: moment(input.finishAt).startOf('day').toDate(),
-        },
-        user,
+      const project = await this.projectService.isAccessible(projectId, user);
+      const currentItr = await this.iterationService.getCurrentByProjectId(
+        projectId,
       );
+      if (currentItr) {
+        throw new BadRequestException(MESSAGES.iteration.EXIST_CURRENT);
+      }
+      const newIteration = await this.iterationService.create({
+        ...input,
+        project,
+        startAt: moment(input.startAt).startOf('day').toDate(),
+        finishAt: moment(input.finishAt).startOf('day').toDate(),
+      });
       const data = this.iterationService._transform(newIteration);
-
-      return ResponseObject.success<IIterationResponse>(data);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  public async search(
-    @Query() { projectId }: SearchProjectsDTO,
-    @Req() { user }: IRequestWithAccount,
-  ) {
-    try {
-      const items = await this.iterationService.search(projectId, user);
-      const data = this.iterationService._transformMulti(items).data;
-
-      return ResponseObject.success<IIterationResponse[]>(data);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  @Get(':iterationId')
-  @UseGuards(JwtAuthGuard)
-  public async getById(
-    @Param('iterationId') id: string,
-    @Req() { user }: IRequestWithAccount,
-  ) {
-    try {
-      const item = await this.iterationService.getById(id, user);
-      const data = this.iterationService._transform(item);
 
       return ResponseObject.success<IIterationResponse>(data);
     } catch (error) {

@@ -6,7 +6,8 @@ import { AccountModule } from 'src/account/account.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { I_AUTH_SERVICE } from './interfaces';
-import { JWTStrategy, LocalStrategy } from './strategies';
+import { CookieStrategy, LocalStrategy } from './strategies';
+import { OptionalStrategy } from './strategies/optional-cookie.strategy';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { JWTStrategy, LocalStrategy } from './strategies';
       useClass: AuthService,
     },
     LocalStrategy,
-    JWTStrategy,
+    CookieStrategy,
+    OptionalStrategy,
   ],
   exports: [I_AUTH_SERVICE],
 })

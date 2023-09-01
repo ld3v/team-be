@@ -3,9 +3,9 @@ import generateId from 'common/gen-id';
 import { Program } from 'src/app/datasource/entities/program.entity';
 import { AbstractEntity } from './abstract.entity';
 import { Iteration } from './iteration.entity';
-import { ProjectMember } from './project-member.entity';
+import { Member } from './member.entity';
 import { BacklogItem } from './backlog-item.entity';
-import { MemberWorkload } from './project-member-workload.entity';
+import { Workload } from './workload.entity';
 
 @Entity({ name: 'project' })
 export class Project extends AbstractEntity<Project> {
@@ -36,11 +36,11 @@ export class Project extends AbstractEntity<Project> {
   @OneToMany(() => BacklogItem, (bli) => bli.project)
   backlog: BacklogItem[];
 
-  @OneToMany(() => ProjectMember, (mem) => mem.project)
-  members: ProjectMember[];
+  @OneToMany(() => Member, (mem) => mem.project)
+  members: Member[];
 
-  @OneToMany(() => MemberWorkload, (wla) => wla.project)
-  membersWorkloads: MemberWorkload[];
+  @OneToMany(() => Workload, (wla) => wla.project)
+  workloads: Workload[];
 
   // Actions
   @BeforeInsert()

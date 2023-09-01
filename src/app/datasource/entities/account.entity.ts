@@ -3,7 +3,7 @@ import generateId from 'common/gen-id';
 import { AbstractEntity } from './abstract.entity';
 import { Exclude } from 'class-transformer';
 import { Program } from './program.entity';
-import { ProjectMember } from './project-member.entity';
+import { Member } from './member.entity';
 
 @Entity({ name: 'account' })
 export class Account extends AbstractEntity<Account> {
@@ -11,7 +11,6 @@ export class Account extends AbstractEntity<Account> {
   displayName: string;
 
   @Column({
-    name: 'username',
     nullable: false,
     unique: true,
   })
@@ -21,6 +20,11 @@ export class Account extends AbstractEntity<Account> {
   @Column()
   password: string;
 
+  @Column({
+    default: '',
+  })
+  avatar: string;
+
   // Relations
   @ManyToMany(() => Program, (prg) => prg.members)
   memberOfPrograms: Program[];
@@ -28,8 +32,8 @@ export class Account extends AbstractEntity<Account> {
   @ManyToMany(() => Program, (prg) => prg.participants)
   participantOfPrograms: Program[];
 
-  @OneToMany(() => ProjectMember, (mem) => mem.account)
-  projectsMembers: ProjectMember[];
+  @OneToMany(() => Member, (mem) => mem.account)
+  projectsMembers: Member[];
 
   // Actions
   @BeforeInsert()

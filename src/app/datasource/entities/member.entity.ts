@@ -3,13 +3,14 @@ import generateId from 'common/gen-id';
 import {
   AbstractEntity,
   Project,
-  MemberWorkload,
   BacklogTask,
   Account,
+  Workload,
+  TaskLog,
 } from '.';
 
-@Entity({ name: 'project_member' })
-export class ProjectMember extends AbstractEntity<ProjectMember> {
+@Entity({ name: 'member' })
+export class Member extends AbstractEntity<Member> {
   // Relations
   @ManyToOne(() => Project, (itr) => itr.members, {
     onDelete: 'CASCADE',
@@ -23,15 +24,18 @@ export class ProjectMember extends AbstractEntity<ProjectMember> {
   })
   account: Account;
 
-  @OneToMany(() => MemberWorkload, (wla) => wla.member)
-  workloads: MemberWorkload;
+  @OneToMany(() => Workload, (wla) => wla.member)
+  workloads: Workload[];
 
-  @OneToMany(() => BacklogTask, (blt) => blt.member)
+  @OneToMany(() => BacklogTask, (blt) => blt.pic)
   tasks: BacklogTask[];
+
+  @OneToMany(() => TaskLog, (log) => log.member)
+  logs: TaskLog[];
 
   // Actions
   @BeforeInsert()
   _updateId() {
-    this.id = generateId('PRJ-MEM', this.id);
+    this.id = generateId('MEM', this.id);
   }
 }

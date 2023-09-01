@@ -9,7 +9,7 @@ import { I_ACCOUNT_SERVICE } from 'src/account/interfaces';
 import MESSAGES from 'common/messages';
 
 @Injectable()
-export class JWTStrategy extends PassportStrategy(Strategy) {
+export class CookieStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(I_ACCOUNT_SERVICE)
     private readonly accountService: AccountService,

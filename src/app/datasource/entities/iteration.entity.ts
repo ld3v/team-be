@@ -27,19 +27,16 @@ export class Iteration extends AbstractEntity<Iteration> {
   review: string;
 
   @Column({
-    name: 'startAt',
     nullable: false,
   })
   startAt: Date;
 
   @Column({
-    name: 'finishAt',
     nullable: false,
   })
   finishAt: Date;
 
   @Column({
-    name: 'isClosed',
     default: false,
   })
   isClosed: boolean;

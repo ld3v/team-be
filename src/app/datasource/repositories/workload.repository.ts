@@ -3,37 +3,34 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { AbstractRepository } from 'src/app/datasource/repositories';
-import { MemberWorkload } from '../entities';
+import { Workload } from '../entities';
 import { IWorkloadByUser, IWorkloadRepository } from '../interfaces';
 
 @Injectable()
 export class WorkloadRepository
-  extends AbstractRepository<MemberWorkload>
+  extends AbstractRepository<Workload>
   implements IWorkloadRepository
 {
-  _getQuery: () => SelectQueryBuilder<MemberWorkload>;
-  constructor(
-    @InjectRepository(MemberWorkload) _repository: Repository<MemberWorkload>,
-  ) {
+  __query: SelectQueryBuilder<Workload>;
+  constructor(@InjectRepository(Workload) _repository: Repository<Workload>) {
     super(_repository);
-    this._getQuery = () =>
-      this._repository
-        .createQueryBuilder('w')
-        .leftJoinAndSelect('w.project', 'project')
-        .leftJoinAndSelect('w.member', 'member');
+    this.__query = this._repository
+      .createQueryBuilder('w')
+      .leftJoinAndSelect('w.project', 'project')
+      .leftJoinAndSelect('w.member', 'member');
   }
 
   public async getWorkloads(
     projectId: string,
     memberId?: string,
   ): Promise<Record<string, IWorkloadByUser>> {
-    let _query = this._getQuery()
-      .addSelect('SUM()')
-      .andWhere('project.id = :projectId', { projectId });
+    let _query = this.__query.andWhere('project.id = :projectId', {
+      projectId,
+    });
     if (memberId) {
       _query = _query.andWhere('member.id = :memberId', { memberId });
     }
-    const workloads = await _query.getRawMany<MemberWorkload>();
+    const workloads = await _query.getRawMany<Workload>();
 
     const res: Record<string, IWorkloadByUser> = {};
     workloads.forEach((wl) => {

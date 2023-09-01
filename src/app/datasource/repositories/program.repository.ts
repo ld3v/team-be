@@ -5,38 +5,44 @@ import {
   AbstractRepository,
   TPaginationOptions,
   TSearchOptions,
-} from 'src/app/datasource/repositories/abstract.repository';
-import { Repository } from 'typeorm';
-import { Program } from '../entities/program.entity';
-import { IProgramRepository } from '../interfaces/program.interface';
-import { Account } from '../entities';
+} from 'src/app/datasource/repositories';
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Account, Program } from '../entities';
+import { IProgramRepository } from '../interfaces';
 
 @Injectable()
 export class ProgramRepository
   extends AbstractRepository<Program>
   implements IProgramRepository
 {
+  __query: (accountId: string) => SelectQueryBuilder<Program>;
   constructor(@InjectRepository(Program) _repository: Repository<Program>) {
     super(_repository);
+    this.__query = (accountId) => {
+      const __query = this._repository
+        .createQueryBuilder('p')
+        .leftJoinAndSelect('p.projects', 'project')
+        .leftJoinAndSelect('p.members', 'member')
+        .leftJoinAndSelect('p.participants', 'participant');
+      if (!accountId) return __query;
+      return __query.andWhere(
+        '( member.id = :accountId OR participant.id = :accountId )',
+        {
+          accountId,
+        },
+      );
+    };
   }
 
-  async getPrograms(
+  async getItems(
     { keyword }: TSearchOptions = {},
     { page, size }: TPaginationOptions = {},
-    requester: Account,
+    requester?: Account,
   ) {
-    let _query = this._repository
-      .createQueryBuilder('program')
-      .leftJoinAndSelect('program.projects', 'project')
-      .leftJoinAndSelect('program.members', 'member')
-      .leftJoinAndSelect('program.participants', 'participant')
-      .where('member.id = :accountId OR participant.id = :accountId', {
-        accountId: requester.id,
-      });
-
+    let _query = this.__query(requester?.id);
     if (keyword) {
-      _query = _query.where(
-        'program.name LIKE :keyword OR program.description LIKE :keyword',
+      _query = _query.andWhere(
+        '( p.name LIKE :keyword OR p.description LIKE :keyword )',
         { keyword: `%${keyword}%` },
       );
     }
@@ -53,19 +59,18 @@ export class ProgramRepository
     };
   }
 
-  public async getProgramById(
-    id: string,
-    requester: Account,
+  public async getById(id: string, requester?: Account): Promise<Program> {
+    return await this.__query(requester?.id)
+      .andWhere('p.id = :id', { id })
+      .getOne();
+  }
+
+  public async getByProjectId(
+    projectId: string,
+    requester?: Account,
   ): Promise<Program> {
-    return await this._repository
-      .createQueryBuilder('program')
-      .leftJoinAndSelect('program.projects', 'project')
-      .leftJoinAndSelect('program.members', 'member')
-      .leftJoinAndSelect('program.participants', 'participant')
-      .where('program.id = :id', { id })
-      .andWhere('member.id = :accountId OR participant.id = :accountId', {
-        accountId: requester.id,
-      })
+    return await this.__query(requester?.id)
+      .andWhere('project.id = :projectId', { projectId })
       .getOne();
   }
 }

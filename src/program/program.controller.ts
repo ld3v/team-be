@@ -15,7 +15,7 @@ import {
   IProgramService,
   I_PROGRAM_SERVICE,
 } from './interfaces';
-import { JwtAuthGuard } from 'src/auth/guards';
+import { JWTAuthGuard } from 'src/auth/guards';
 import { CreateProgramDTO } from './dto';
 import { IRequestWithAccount } from 'src/auth/interfaces';
 import ResponseObject from 'common/response';
@@ -29,7 +29,7 @@ export class ProgramController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JWTAuthGuard)
   public async create(
     @Body() data: CreateProgramDTO,
     @Req() { user }: IRequestWithAccount,
@@ -45,16 +45,16 @@ export class ProgramController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JWTAuthGuard)
   public async search(
     @Query() { keyword, ...pagination }: SearchPaginationDTO,
     @Req() { user }: IRequestWithAccount,
   ) {
     try {
       const { items, total } = await this.programService.search(
-        user,
         { keyword },
         pagination,
+        user,
       );
       const programsReturn = this.programService._transformMulti(items).data;
 
@@ -65,7 +65,7 @@ export class ProgramController {
   }
 
   @Get(':programId')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JWTAuthGuard)
   public async getById(
     @Param('programId') programId: string,
     @Req() { user }: IRequestWithAccount,
@@ -73,7 +73,7 @@ export class ProgramController {
     try {
       const program = await this.programService.getById(programId, user);
       if (!program) {
-        throw new BadRequestException(MESSAGES.program.NOT_EXIST);
+        throw new BadRequestException(MESSAGES.common.NOT_EXIST('program'));
       }
       const programsReturn = this.programService._transform(program);
 

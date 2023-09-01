@@ -1,12 +1,17 @@
-import { Inject, Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  BadRequestException,
+  forwardRef,
+} from '@nestjs/common';
 import * as moment from 'moment';
 import {
   IIterationService,
   IIterationResponse,
   ICreateIterationInput,
-  TIterationPreview,
+  IIterationPreview,
 } from './interfaces';
-import { Account, Iteration } from 'src/app/datasource/entities';
+import { Iteration, Project } from 'src/app/datasource/entities';
 import {
   IIterationRepository,
   I_ITERATION_REPOSITORY,
@@ -20,21 +25,16 @@ export class IterationService implements IIterationService {
   constructor(
     @Inject(I_ITERATION_REPOSITORY)
     private readonly iterationRepository: IIterationRepository,
-    @Inject(I_PROJECT_SERVICE) private readonly projectService: IProjectService,
+    @Inject(forwardRef(() => I_PROJECT_SERVICE))
+    private readonly projectService: IProjectService,
   ) {}
 
-  public async create(
-    data: ICreateIterationInput,
-    requester: Account,
-  ): Promise<Iteration> {
+  public async getCurrentByProjectId(projectId: string): Promise<Iteration> {
+    return await this.iterationRepository.getCurrent(projectId);
+  }
+
+  public async create(data: ICreateIterationInput): Promise<Iteration> {
     try {
-      const project = await this.projectService.getById(
-        data.projectId,
-        requester,
-      );
-      if (!project) {
-        throw new BadRequestException(MESSAGES.program.NOT_EXIST);
-      }
       if (
         moment(data.startAt)
           .startOf('day')
@@ -44,48 +44,23 @@ export class IterationService implements IIterationService {
       }
       return await this.iterationRepository.create({
         ...data,
-        project,
       });
     } catch (error) {
       throw error;
     }
   }
 
-  public async search(
-    projectId: string,
-    requester: Account,
-  ): Promise<Iteration[]> {
+  public async getById(id: string): Promise<Iteration> {
     try {
-      const member = await this.projectService.getMemberByAccount(
-        projectId,
-        requester,
-      );
-      if (!member) {
-        throw new BadRequestException(MESSAGES.project.NOT_MEMBER);
-      }
-      const project = await this.iterationRepository.getIterationById(
-        projectId,
-        member,
-      );
-      if (!project) {
-        throw new BadRequestException(MESSAGES.project.NOT_EXIST);
-      }
-      return await this.iterationRepository.getIterations(member);
+      return await this.iterationRepository.findById(id);
     } catch (error) {
       throw error;
     }
   }
 
-  public async getById(id: string, requester: Account): Promise<Iteration> {
+  public async findByProject(project: Project): Promise<Iteration[]> {
     try {
-      const member = await this.projectService.getMemberByAccount(
-        id,
-        requester,
-      );
-      if (!member) {
-        throw new BadRequestException(MESSAGES.project.NOT_MEMBER);
-      }
-      return await this.iterationRepository.getIterationById(id, member);
+      return await this.iterationRepository.getItemsByProjectId(project.id);
     } catch (error) {
       throw error;
     }
@@ -101,23 +76,27 @@ export class IterationService implements IIterationService {
     return data;
   }
 
-  public _transformPreview(iteration: Iteration): TIterationPreview {
+  public _transformPreview(iteration: Iteration): IIterationPreview {
     return {
       id: iteration.id,
       name: iteration.name,
       description: iteration.description,
       isClosed: iteration.isClosed,
+      dates: [
+        moment(iteration.startAt).toDate(),
+        moment(iteration.finishAt).toDate(),
+      ],
     };
   }
 
   public _transformMulti(
     iterations: Iteration[],
-  ): TTransformResult<IIterationResponse, TIterationPreview> {
+  ): TTransformResult<IIterationResponse, IIterationPreview> {
     const res = {
       previews: [],
       data: [],
     };
-    iterations.forEach((itr) => {
+    iterations?.forEach((itr) => {
       res.data.push(this._transform(itr));
       res.previews.push(this._transformPreview(itr));
     });

@@ -12,6 +12,8 @@ export interface IBaseEntity {
   _updateId(prefix: string, _default?: string): void;
 }
 
+export type TTimeRange = [Date, Date];
+
 export type TEntityOptionFields =
   | '_updateId'
   | 'reload'

@@ -7,6 +7,7 @@ import {
   UseGuards,
   Req,
   BadRequestException,
+  Get,
 } from '@nestjs/common';
 import {
   IAuthService,
@@ -19,6 +20,7 @@ import { Response } from 'express';
 import { IAccountService, I_ACCOUNT_SERVICE } from 'src/account/interfaces';
 import { CreateAccountDTO } from 'src/account/dto/account.dto';
 import MESSAGES from 'common/messages';
+import { CookieStrategy } from './strategies';
 
 @Controller('auth')
 export class AuthController {
@@ -65,6 +67,18 @@ export class AuthController {
       return response.send(
         ResponseObject.success(this.accountService._transform(account)),
       );
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @Get('logout')
+  @UseGuards(CookieStrategy)
+  async logout(@Res() response: Response) {
+    try {
+      const cookie = this.authService.generateCookieString(true);
+      response.setHeader('Set-Cookie', cookie);
+      return response.send(ResponseObject.success(true));
     } catch (err) {
       throw err;
     }

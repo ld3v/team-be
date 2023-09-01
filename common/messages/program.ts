@@ -1,6 +1,3 @@
-const PROGRAM_MESSAGES = {
-  NOT_EXIST:
-    'This program is not exist, or you have no permission to access it!',
-};
+const PROGRAM_MESSAGES = {};
 
 export default PROGRAM_MESSAGES;

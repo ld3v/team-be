@@ -10,28 +10,31 @@ import {
   Iteration,
   BacklogItem,
   BacklogTask,
-  ProjectMember,
-  MemberWorkload,
+  Member,
+  Workload,
+  TaskLog,
 } from './entities';
 import {
   I_PROJECT_REPOSITORY,
   I_ACCOUNT_REPOSITORY,
   I_PROGRAM_REPOSITORY,
   I_ITERATION_REPOSITORY,
-  I_PROJECT_MEMBER_REPOSITORY,
-  I_MEMBER_WORKLOAD_REPOSITORY,
+  I_MEMBER_REPOSITORY,
+  I_WORKLOAD_REPOSITORY,
   I_BACKLOG_ITEM_REPOSITORY,
   I_BACKLOG_TASK_REPOSITORY,
+  I_TASKLOG_REPOSITORY,
 } from './interfaces';
 import {
   ProjectRepository,
   AccountRepository,
   ProgramRepository,
   IterationRepository,
-  ProjectMemberRepository,
+  MemberRepository,
   WorkloadRepository,
   BacklogItemRepository,
   BacklogTaskRepository,
+  TaskLogRepository,
 } from './repositories';
 
 @Module({
@@ -54,12 +57,13 @@ import {
     TypeOrmModule.forFeature([
       Program,
       Project,
-      ProjectMember,
-      MemberWorkload,
+      Member,
+      Workload,
       Account,
       Iteration,
       BacklogItem,
       BacklogTask,
+      TaskLog,
     ]),
   ],
   providers: [
@@ -76,11 +80,11 @@ import {
       useClass: ProjectRepository,
     },
     {
-      provide: I_PROJECT_MEMBER_REPOSITORY,
-      useClass: ProjectMemberRepository,
+      provide: I_MEMBER_REPOSITORY,
+      useClass: MemberRepository,
     },
     {
-      provide: I_MEMBER_WORKLOAD_REPOSITORY,
+      provide: I_WORKLOAD_REPOSITORY,
       useClass: WorkloadRepository,
     },
     {
@@ -95,16 +99,21 @@ import {
       provide: I_BACKLOG_TASK_REPOSITORY,
       useClass: BacklogTaskRepository,
     },
+    {
+      provide: I_TASKLOG_REPOSITORY,
+      useClass: TaskLogRepository,
+    },
   ],
   exports: [
     I_ACCOUNT_REPOSITORY,
     I_PROGRAM_REPOSITORY,
     I_PROJECT_REPOSITORY,
-    I_PROJECT_MEMBER_REPOSITORY,
-    I_MEMBER_WORKLOAD_REPOSITORY,
+    I_MEMBER_REPOSITORY,
+    I_WORKLOAD_REPOSITORY,
     I_ITERATION_REPOSITORY,
     I_BACKLOG_ITEM_REPOSITORY,
     I_BACKLOG_TASK_REPOSITORY,
+    I_TASKLOG_REPOSITORY,
   ],
 })
 export class DatabaseModule {}

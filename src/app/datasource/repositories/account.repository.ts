@@ -6,7 +6,7 @@ import {
   TPaginationOptions,
   TSearchOptions,
 } from 'src/app/datasource/repositories/abstract.repository';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Account } from '../entities/account.entity';
 import { IAccountRepository } from '../interfaces/account.interface';
 
@@ -15,22 +15,24 @@ export class AccountRepository
   extends AbstractRepository<Account>
   implements IAccountRepository
 {
+  __query: SelectQueryBuilder<Account>;
   constructor(@InjectRepository(Account) _repository: Repository<Account>) {
     super(_repository);
+    this.__query = this._repository
+      .createQueryBuilder('account')
+      .leftJoinAndSelect('account.memberOfPrograms', 'memOfPrg')
+      .leftJoinAndSelect('account.participantOfPrograms', 'participantOfPrg');
   }
 
   public async getAccounts(
     { keyword }: TSearchOptions = {},
     { page, size }: TPaginationOptions = {},
   ) {
-    let _query = this._repository
-      .createQueryBuilder('account')
-      .leftJoinAndSelect('account.memberOfPrograms', 'memOfPrg')
-      .leftJoinAndSelect('account.participantOfPrograms', 'participantOfPrg');
+    let _query = this.__query;
 
     if (keyword) {
-      _query = _query.where(
-        'account.username LIKE :keyword OR account.displayName LIKE :keyword',
+      _query = _query.andWhere(
+        '( account.username LIKE :keyword OR account.displayName LIKE :keyword )',
         { keyword: `%${keyword}%` },
       );
     }
@@ -48,6 +50,10 @@ export class AccountRepository
   }
 
   public async getByUsername(username: string) {
-    return await this._repository.findOneBy({ username });
+    return await this.__query
+      .andWhere('account.username = :username', {
+        username,
+      })
+      .getOne();
   }
 }

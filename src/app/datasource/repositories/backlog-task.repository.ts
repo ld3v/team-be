@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { AbstractRepository } from 'src/app/datasource/repositories';
-import { BacklogTask, ProjectMember } from '../entities';
+import { BacklogTask, TaskLog } from '../entities';
 import { IBacklogTaskRepository } from '../interfaces';
 
 @Injectable()
@@ -11,36 +11,39 @@ export class BacklogTaskRepository
   extends AbstractRepository<BacklogTask>
   implements IBacklogTaskRepository
 {
-  _getQuery: (memberId: string) => SelectQueryBuilder<BacklogTask>;
+  __query: SelectQueryBuilder<BacklogTask>;
   constructor(
     @InjectRepository(BacklogTask) _repository: Repository<BacklogTask>,
   ) {
     super(_repository);
-    this._getQuery = (memberId) =>
-      this._repository
-        .createQueryBuilder('t')
-        .leftJoinAndSelect('t.backlog', 'backlog')
-        .leftJoinAndSelect('backlog.project', 'project')
-        .leftJoinAndSelect('backlog.iteration', 'iteration')
-        .leftJoinAndSelect('project.members', 'member')
-        .andWhere('member.id = :memberId', { memberId });
+    this.__query = this._repository
+      .createQueryBuilder('t')
+      .leftJoinAndSelect('t.backlog', 'backlog')
+      .leftJoinAndSelect('t.pic', 'pic')
+      .leftJoinAndSelect('pic.account', 'account');
   }
 
-  public async getItems(
-    backlogId: string,
-    requester: ProjectMember,
-  ): Promise<BacklogTask[]> {
-    return await this._getQuery(requester.id)
+  public async getItems(backlogId: string): Promise<BacklogTask[]> {
+    return await this.__query
       .andWhere('backlog.id = :backlogId', { backlogId })
       .getMany();
   }
 
-  public async getItemById(
+  public async findById(
     id: string,
-    requester: ProjectMember,
-  ): Promise<BacklogTask> {
-    return await this._getQuery(requester.id)
+  ): Promise<BacklogTask & { totalTimeSpent: number }> {
+    return (await this.__query
+      .leftJoinAndSelect('t.logworks', 'logwork')
+      .addSelect('SUM(logwork.timeSpent)', 'totalTimeSpent')
       .andWhere('t.id = :id', { id })
-      .getOne();
+      .getRawOne()) as BacklogTask & { totalTimeSpent: number };
+  }
+
+  public async addLog(
+    task: BacklogTask,
+    logwork: TaskLog,
+  ): Promise<BacklogTask> {
+    task.logs.push(logwork);
+    return await this._repository.save(task);
   }
 }

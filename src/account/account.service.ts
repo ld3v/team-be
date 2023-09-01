@@ -55,6 +55,8 @@ export class AccountService implements IAccountService {
     return {
       id: account.id,
       username: account.username,
+      avatar: account.avatar,
+      displayName: account.displayName,
     };
   }
 
@@ -66,7 +68,7 @@ export class AccountService implements IAccountService {
       previews: [],
       data: [],
     };
-    accounts.forEach((acc) => {
+    accounts?.forEach((acc) => {
       res.data.push(this._transform(acc));
       res.previews.push(this._transformPreview(acc));
     });

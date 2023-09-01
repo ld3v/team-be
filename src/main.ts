@@ -18,7 +18,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: ['https://team.nqhuy.dev', 'http://localhost:7000'],
+    origin: ['https://team.nqhuy.dev', 'http://localhost:3000'],
     methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type'],
     credentials: true,

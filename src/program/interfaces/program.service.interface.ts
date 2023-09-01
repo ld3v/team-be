@@ -13,11 +13,23 @@ export const I_PROGRAM_SERVICE = 'I-PROGRAM-SERVICE';
 export interface IProgramService {
   create(data: CreateProgramDTO, author: Account): Promise<Program>;
   search(
-    requester: Account,
     searchOptions: TSearchOptions,
     paginationOptions: TPaginationOptions,
+    requester: Account,
   ): Promise<TPaginationResult<Program>>;
-  getById(id: string, requester: Account): Promise<Program | null>;
+  /**
+   * Set `throwErrIfNotFound` to `true` -> throw Error if not found
+   */
+  getById(
+    id: string,
+    requester?: Account,
+    throwErrIfNotFound?: boolean,
+  ): Promise<Program | null>;
+  getByProjectId(
+    projectId: string,
+    requester: Account,
+  ): Promise<Program | null>;
+  // Transform data
   _transform(program: Program): IProgramResponse;
   _transformPreview(program: Program): TProgramPreview;
   _transformMulti(

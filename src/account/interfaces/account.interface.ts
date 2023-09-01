@@ -9,4 +9,7 @@ export interface IAccountResponse
   participantOfProgramIds: string[];
 }
 
-export type TAccountPreview = Pick<TAccountEntity, 'id' | 'username'>;
+export type TAccountPreview = Pick<
+  TAccountEntity,
+  'id' | 'username' | 'avatar' | 'displayName'
+>;

@@ -12,10 +12,14 @@ export type TProgramEntity = Omit<Program, TEntityOptionFields>;
 export const I_PROGRAM_REPOSITORY = 'I-PROGRAM-REPOSITORY';
 
 export interface IProgramRepository extends IRepository<Program> {
-  getPrograms(
+  getItems(
     searchOptions: TSearchOptions,
     pagination: TPaginationOptions,
-    requester: Account,
+    requester?: Account,
   ): Promise<TPaginationResult<Program>>;
-  getProgramById(id: string, requester: Account): Promise<Program>;
+  getById(id: string, requester: Account): Promise<Program | null>;
+  getByProjectId(
+    projectId: string,
+    requester: Account,
+  ): Promise<Program | null>;
 }
