@@ -13,6 +13,7 @@ import { TaskModule } from './task/task.module';
 import { MemberModule } from './member/member.module';
 import { CronModule } from './cron/cron.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { PublicModule } from './public/public.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     TaskModule,
     MemberModule,
     CronModule,
+    PublicModule,
   ],
   controllers: [AppController],
 })

@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { ICronService } from './interfaces/cron.service.interface';
-import { sendDailyLogworkNotify } from './jobs';
+import { sendDailyLogworkNotify, sendDailyMeetingNotify } from './jobs';
 import { ConfigService } from '@nestjs/config';
+import { randomMember } from 'common/func';
+import { APM_MEMBERS } from 'common/constants';
 
 @Injectable()
 export class CronService implements ICronService {
@@ -21,6 +23,24 @@ export class CronService implements ICronService {
     } catch (error) {
       Logger.error(
         'Something went wrong when run job dailyLogTaskReminder: ' +
+          error.message,
+      );
+    }
+  }
+
+  @Cron('45 8 * * *', {
+    name: 'daily_meeting_reminder',
+    timeZone: 'Asia/Ho_Chi_Minh',
+  })
+  async dailyMeetingReminder() {
+    try {
+      const hook = this.configService.get<string>('GG_CHAT_WEBHOOK');
+      const member = randomMember(APM_MEMBERS);
+      const res = await sendDailyMeetingNotify(hook, member);
+      console.log(res);
+    } catch (error) {
+      Logger.error(
+        'Something went wrong when run job dailyMeetingReminder: ' +
           error.message,
       );
     }
