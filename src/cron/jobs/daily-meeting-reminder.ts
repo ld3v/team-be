@@ -3,7 +3,12 @@ import { sendGChatMessage } from 'common/func';
 export const sendDailyMeetingNotify = async (
   gChatWebhook: string,
   { id, alias }: { id: string; alias: string },
+  members: string[] = [],
 ) => {
+  const membersQuery = members
+    .map((mem) => (mem === alias ? `_${mem}` : mem))
+    .join('@');
+  const membersEncoded = encodeURIComponent(membersQuery);
   return await sendGChatMessage(gChatWebhook, {
     text: `Hi <users/${id}>!`,
     cardsV2: [
@@ -27,7 +32,7 @@ export const sendDailyMeetingNotify = async (
                 },
                 {
                   textParagraph: {
-                    text: '<i>And remember that we have the Daily Meeting at 9am (after 15 mins)</i><br/>If he off today, click the <b>Get a new member</b> to get a new random member to host this meeting!',
+                    text: `<i>And remember that we have the Daily Meeting at 9am (after 15 mins)</i><br/>If he off today, click the <b>Get a new member</b> to get a new random member to host this meeting! <a href="https://team.nqhuy.dev/p/tools/random/${membersEncoded}">Ex</a>"`,
                   },
                 },
                 {
@@ -61,7 +66,7 @@ export const sendDailyMeetingNotify = async (
                         text: 'Get a new member',
                         onClick: {
                           openLink: {
-                            url: 'https://team-apis.nqhuy.dev/public/random-hosted-daily-meeting',
+                            url: `https://team.nqhuy.dev/p/tools/random/${membersEncoded}`,
                           },
                         },
                       },
