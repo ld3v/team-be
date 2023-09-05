@@ -11,6 +11,8 @@ import { IterationModule } from './iteration/iteration.module';
 import { BacklogModule } from './backlog/backlog.module';
 import { TaskModule } from './task/task.module';
 import { MemberModule } from './member/member.module';
+import { CronModule } from './cron/cron.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { MemberModule } from './member/member.module';
         PORT: Joi.number().required(),
       }),
     }),
+    ScheduleModule.forRoot(),
     ProgramModule,
     ProjectModule,
     AuthModule,
@@ -29,6 +32,7 @@ import { MemberModule } from './member/member.module';
     BacklogModule,
     TaskModule,
     MemberModule,
+    CronModule,
   ],
   controllers: [AppController],
 })
