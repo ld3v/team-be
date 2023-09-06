@@ -32,7 +32,7 @@ export const sendDailyMeetingNotify = async (
                 },
                 {
                   textParagraph: {
-                    text: `<i>And remember that we have the Daily Meeting at 9am (after 15 mins)</i><br/>If he off today, click the <b>Get a new member</b> to get a new random member to host this meeting! <a href="https://team.nqhuy.dev/p/tools/random/${membersEncoded}">Ex</a>"`,
+                    text: `<i>And remember that we have the Daily Meeting at 9am (after 15 mins)</i><br/>If he off today, click the <b>Get a new member</b> to get a new random member to host this meeting!`,
                   },
                 },
                 {
