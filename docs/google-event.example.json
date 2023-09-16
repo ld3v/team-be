@@ -1,0 +1,90 @@
+{
+  "summary": "APM: Daily Scrum Meeting",
+  "created": "2023-05-31T08:12:27.000Z",
+  "originalStartTime": {
+    "timeZone": "Asia/Ho_Chi_Minh",
+    "dateTime": "2023-09-18T09:00:00+07:00"
+  },
+  "visibility": "private",
+  "organizer": { "email": "phat.vu.tpv@one-line.com" },
+  "creator": { "email": "vu.nguyen.tpv@one-line.com" },
+  "attendees": [
+    { "email": "quang.ha.tpv@one-line.com", "responseStatus": "needsAction" },
+    {
+      "email": "huy.nguyenq.tpv@one-line.com",
+      "responseStatus": "needsAction",
+      "self": true
+    },
+    {
+      "email": "phat.vu.tpv@one-line.com",
+      "responseStatus": "accepted",
+      "organizer": true
+    },
+    {
+      "email": "hong.nguyen.tpv@one-line.com",
+      "responseStatus": "needsAction"
+    },
+    {
+      "email": "hieu.trungnguyen.tpv@one-line.com",
+      "responseStatus": "accepted"
+    },
+    { "email": "tu.le.tpv@one-line.com", "responseStatus": "accepted" },
+    { "responseStatus": "accepted", "email": "khang.vo.tpv@one-line.com" },
+    { "email": "tam.doan.tpv@one-line.com", "responseStatus": "accepted" },
+    { "responseStatus": "needsAction", "email": "tung.on.tpv@one-line.com" },
+    { "email": "phat.do.tpv@one-line.com", "responseStatus": "accepted" },
+    { "responseStatus": "needsAction", "email": "hai.tt.tpv@one-line.com" },
+    { "responseStatus": "needsAction", "email": "hung.ns.tpv@one-line.com" },
+    { "responseStatus": "accepted", "email": "vinh.duong.tpv@one-line.com" },
+    { "responseStatus": "accepted", "email": "linh.nguyen.tpv@one-line.com" },
+    { "responseStatus": "needsAction", "email": "trung.dinh.tpv@one-line.com" },
+    { "email": "dinh.do.tpv@one-line.com", "responseStatus": "needsAction" },
+    { "email": "phuoc.huynh.tpv@one-line.com", "responseStatus": "accepted" },
+    { "responseStatus": "needsAction", "email": "nguyen.do.tpv@one-line.com" },
+    { "responseStatus": "accepted", "email": "hoi.le.tpv@one-line.com" },
+    { "email": "ut.tran.tpv@one-line.com", "responseStatus": "accepted" },
+    { "responseStatus": "accepted", "email": "truc.tran.tpv@one-line.com" },
+    {
+      "responseStatus": "needsAction",
+      "email": "nguu.nguyen.tpv@one-line.com"
+    },
+    { "email": "chuong.tran.tpv@one-line.com", "responseStatus": "accepted" },
+    { "responseStatus": "needsAction", "email": "ngan.hoang.tpv@one-line.com" }
+  ],
+  "id": "3igmc5te4eo0hsk9lg0agiqsfq_20230918T020000Z",
+  "sequence": 0,
+  "iCalUID": "3igmc5te4eo0hsk9lg0agiqsfq_R20230814T020000@google.com",
+  "updated": "2023-08-29T04:26:48.161Z",
+  "reminders": { "useDefault": true },
+  "conferenceData": {
+    "entryPoints": [
+      {
+        "uri": "https://meet.google.com/bkm-srnj-anv",
+        "entryPointType": "video",
+        "label": "meet.google.com/bkm-srnj-anv"
+      }
+    ],
+    "conferenceSolution": {
+      "name": "Google Meet",
+      "key": { "type": "hangoutsMeet" },
+      "iconUri": "https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png"
+    },
+    "conferenceId": "bkm-srnj-anv"
+  },
+  "description": "Dear APM Team,<br>cc all stakeholders <i>(for your information only)</i><br><br>Let&#39;s sync-up to inspect the progress and plan our daily works together.<br><br><i>Note:</i> <i>Beside achieving the main purpose of the event, we should take this <b>as a practice</b> to get used to the Scrum Framework eventually.</i><ul><li>Required: Developers (Engineers, Testers, UI/UX Designers). <br>If PO/PPO contribute to the development, you are joining as a developer.</li><li>Optional: Other stakeholders</li></ul><b>Meeting Room: 6F-San Francisco</b><br><br>Roadmap: <a href=\"https://www.google.com/url?q=https://docs.google.com/spreadsheets/d/1aTaQahZFCXIBWLFHyJ7uGzY_x67b6ABleEj0IC4Egc0/edit%23gid%3D442600829&amp;sa=D&amp;source=calendar&amp;ust=1685952682844072&amp;usg=AOvVaw34BRXMTStoAD_pIzyhr79P\" target=\"_blank\">https://docs.google.com/spreadsheets/d/1aTaQahZFCXIBWLFHyJ7uGzY_x67b6ABleEj0IC4Egc0/edit#gid=442600829</a><br><br>Thank you.<br><br>Vu",
+  "etag": "\"3386566416322000\"",
+  "eventType": "default",
+  "hangoutLink": "https://meet.google.com/bkm-srnj-anv",
+  "htmlLink": "https://www.google.com/calendar/event?eid=M2lnbWM1dGU0ZW8waHNrOWxnMGFnaXFzZnFfMjAyMzA5MThUMDIwMDAwWiBodXkubmd1eWVucS50cHZAb25lLWxpbmUuY29t",
+  "status": "confirmed",
+  "end": {
+    "dateTime": "2023-09-18T09:30:00+07:00",
+    "timeZone": "Asia/Ho_Chi_Minh"
+  },
+  "start": {
+    "timeZone": "Asia/Ho_Chi_Minh",
+    "dateTime": "2023-09-18T09:00:00+07:00"
+  },
+  "kind": "calendar#event",
+  "recurringEventId": "3igmc5te4eo0hsk9lg0agiqsfq_R20230814T020000"
+}

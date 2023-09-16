@@ -1,24 +1,14 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { APM_MEMBERS } from 'common/constants';
-import { randomMember, randomMemberByAlias } from 'common/func';
+import { Controller, Post, Query, Body } from '@nestjs/common';
 
-@Controller('public')
+@Controller('support')
 export class PublicController {
-  @Get('apm-random-member')
-  public getRandomMember(@Query('members') members?: string) {
-    if (members && members.trim().split(',').length > 0) {
-      const memberAliases = members.trim().split(',');
+  @Post('g-events/sync')
+  public syncGEvents(
+    @Query('apiKey') apiKey: string,
+    @Body() { events }: { events: any[] },
+  ) {
+    console.log(events);
 
-      return {
-        members: memberAliases,
-        result: randomMemberByAlias(memberAliases),
-      };
-    }
-    const { alias } = randomMember(APM_MEMBERS);
-
-    return {
-      members: Object.keys(APM_MEMBERS),
-      result: alias,
-    };
+    return events;
   }
 }

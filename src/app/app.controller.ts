@@ -1,4 +1,5 @@
 import { Controller, Get, Inject, Req, UseGuards } from '@nestjs/common';
+import { listEvents } from 'common/func/google-api/calendar';
 import { IAccountService, I_ACCOUNT_SERVICE } from 'src/account/interfaces';
 import { OptionalCookieGuard } from 'src/auth/guards';
 import { IRequestWithAccount } from 'src/auth/interfaces';
@@ -13,5 +14,10 @@ export class AppController {
   @UseGuards(OptionalCookieGuard)
   public checkHealth(@Req() { user }: IRequestWithAccount) {
     return { user: user ? this.accountService._transform(user) : null };
+  }
+
+  @Get('events')
+  public async getGoogleEvents() {
+    return await listEvents();
   }
 }

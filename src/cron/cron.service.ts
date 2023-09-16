@@ -10,7 +10,7 @@ import { APM_MEMBERS } from 'common/constants';
 export class CronService {
   constructor(private readonly configService: ConfigService) {}
 
-  @Cron('45 8 * * *', {
+  @Cron('45 8 * * 1-5', {
     name: 'daily_meeting_reminder',
     timeZone: 'Asia/Ho_Chi_Minh',
   })
@@ -32,21 +32,21 @@ export class CronService {
     }
   }
 
-  // @Cron('0 17 * * *', {
-  //   name: 'daily_logwork_reminder',
-  //   timeZone: 'Asia/Ho_Chi_Minh',
-  // })
-  // async dailyLogTaskReminder() {
-  //   try {
-  //     console.log('Run');
-  //     const hook = this.configService.get<string>('GG_CHAT_WEBHOOK');
-  //     const res = await sendDailyLogworkNotify(hook);
-  //     console.log(res);
-  //   } catch (error) {
-  //     Logger.error(
-  //       'Something went wrong when run job dailyLogTaskReminder: ' +
-  //         error.message,
-  //     );
-  //   }
-  // }
+  @Cron('0 17 * * 1-5', {
+    name: 'daily_logwork_reminder',
+    timeZone: 'Asia/Ho_Chi_Minh',
+  })
+  async dailyLogTaskReminder() {
+    try {
+      console.log('Run');
+      const hook = this.configService.get<string>('GG_CHAT_WEBHOOK');
+      const res = await sendDailyLogworkNotify(hook);
+      console.log(res);
+    } catch (error) {
+      Logger.error(
+        'Something went wrong when run job dailyLogTaskReminder: ' +
+          error.message,
+      );
+    }
+  }
 }
