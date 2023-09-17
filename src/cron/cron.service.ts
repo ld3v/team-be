@@ -22,7 +22,7 @@ export class CronService {
     @Inject(CACHE_MANAGER) private readonly cacheService: Cache,
   ) {}
 
-  @Cron('* * * * *', {
+  @Cron('30 8 * * 1-5', {
     name: 'daily_meeting_reminder',
     timeZone: 'Asia/Ho_Chi_Minh',
   })
