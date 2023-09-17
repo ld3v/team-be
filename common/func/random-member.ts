@@ -1,11 +1,19 @@
 export const randomMember = (
   memberDic: Record<string, string>,
   memberJoin?: string[],
+  except?: string[],
 ): { id: string; alias: string } => {
-  const members = memberJoin
-    ? [...Object.keys(memberDic)].filter((mem) => memberJoin.includes(mem))
-    : [...Object.keys(memberDic)];
+  let members = [...Object.keys(memberDic)];
+  if (memberJoin) members = members.filter((mem) => memberJoin.includes(mem));
+  if (except) members = members.filter((mem) => !except.includes(mem));
+
   const memberCount = members.length;
+  if (memberCount === 0) {
+    return {
+      id: '-1',
+      alias: '',
+    };
+  }
   const keySelected = members[Math.floor(Math.random() * memberCount)];
   return {
     alias: keySelected,
