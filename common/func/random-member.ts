@@ -1,7 +1,10 @@
 export const randomMember = (
   memberDic: Record<string, string>,
+  memberJoin?: string[],
 ): { id: string; alias: string } => {
-  const members = [...Object.keys(memberDic)];
+  const members = memberJoin
+    ? [...Object.keys(memberDic)].filter((mem) => memberJoin.includes(mem))
+    : [...Object.keys(memberDic)];
   const memberCount = members.length;
   const keySelected = members[Math.floor(Math.random() * memberCount)];
   return {

@@ -13,5 +13,6 @@ import { I_SUPPORT_SERVICE } from './interfaces';
       useClass: SupportService,
     },
   ],
+  exports: [I_SUPPORT_SERVICE],
 })
-export class PublicModule {}
+export class SupportModule {}

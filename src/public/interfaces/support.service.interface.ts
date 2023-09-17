@@ -4,4 +4,5 @@ import { CreateSPGEventDTO } from '../dto';
 export const I_SUPPORT_SERVICE = 'I-SUPPORT-SERVICE';
 export interface ISupportService {
   createEventsIfNotExist(inputs: CreateSPGEventDTO[]): Promise<SPGoogleEvent[]>;
+  getEventsToday(): Promise<SPGoogleEvent[]>;
 }

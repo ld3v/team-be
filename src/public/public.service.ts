@@ -23,4 +23,12 @@ export class SupportService implements ISupportService {
 
     return created;
   }
+
+  public async getEventsToday(): Promise<SPGoogleEvent[]> {
+    const { items } = await this.googleEventRepository.getEvents({
+      isTodayOnly: true,
+    });
+
+    return items;
+  }
 }

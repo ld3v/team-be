@@ -10,13 +10,13 @@ export abstract class AbstractEntity<Entity> extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ type: 'timestamptz' })
   deletedAt: Date;
 
   constructor(partial?: Partial<Entity>) {

@@ -14,8 +14,6 @@ export class PublicController {
     @Body() { events }: CreateSPGEventsDTO,
   ) {
     console.log(apiKey, events);
-    await this.supportService.createEventsIfNotExist(events);
-
-    return events;
+    return await this.supportService.createEventsIfNotExist(events);
   }
 }

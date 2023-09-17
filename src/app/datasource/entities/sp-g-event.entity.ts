@@ -20,16 +20,19 @@ export class SPGoogleEvent extends AbstractEntity<SPGoogleEvent> {
   })
   description: string;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
   startedAt: Date;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
   finishedAt: Date;
 
   @Column({
     default: '',
   })
   meetingLink: string;
+
+  @Column()
+  eventLink: string;
 
   @Column({
     default: '[]',

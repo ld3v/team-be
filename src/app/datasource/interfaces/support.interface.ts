@@ -7,11 +7,13 @@ import {
   TSearchOptions,
 } from '../repositories';
 
+export type TSearchEventsOptions = TSearchOptions & { isTodayOnly?: boolean };
+
 export const I_SP_GOOGLE_EVENT_REPOSITORY = 'I-SP-GOOGLE-EVENT-REPOSITORY';
 export interface IGoogleEventRepository extends IRepository<SPGoogleEvent> {
   getEvents(
-    searchOptions: TSearchOptions,
-    pagination: TPaginationOptions,
+    searchOptions: TSearchEventsOptions,
+    pagination?: TPaginationOptions,
   ): Promise<TPaginationResult<SPGoogleEvent>>;
   createEvents(inputs: CreateSPGEventDTO[]): Promise<SPGoogleEvent[]>;
   createEventsIfNotExist(inputs: CreateSPGEventDTO[]): Promise<{

@@ -1,14 +1,22 @@
 import { sendGChatMessage } from 'common/func';
+import * as moment from 'moment';
 
 export const sendDailyMeetingNotify = async (
   gChatWebhook: string,
   { id, alias }: { id: string; alias: string },
-  members: string[] = [],
+  startedAt: Date,
+  {
+    newHostedLink,
+    meetingLink,
+    eventLink,
+  }: {
+    meetingLink: string;
+    eventLink: string;
+    newHostedLink: string;
+  },
 ) => {
-  const membersQuery = members
-    .map((mem) => (mem === alias ? `_${mem}` : mem))
-    .join('@');
-  const membersEncoded = encodeURIComponent(membersQuery);
+  const startTime = moment(startedAt);
+
   return await sendGChatMessage(gChatWebhook, {
     text: `Hi <users/${id}>!`,
     cardsV2: [
@@ -32,7 +40,11 @@ export const sendDailyMeetingNotify = async (
                 },
                 {
                   textParagraph: {
-                    text: `<i>And remember that we have the Daily Meeting at 9am (after 15 mins)</i><br/>If he off today, click the <b>Get a new member</b> to get a new random member to host this meeting!`,
+                    text:
+                      '<i>And remember that we have the Daily Meeting at ' +
+                      `${startTime.format('HH:mm')} ` +
+                      `(${startTime.fromNow()})</i><br/>` +
+                      'If he off today, click the <b>Get a new hosted</b> to get a new random member to host this meeting!',
                   },
                 },
                 {
@@ -45,7 +57,7 @@ export const sendDailyMeetingNotify = async (
                         text: 'Join meeting',
                         onClick: {
                           openLink: {
-                            url: 'https://meet.google.com',
+                            url: meetingLink || 'https://meet.google.com',
                           },
                         },
                         color: {
@@ -55,18 +67,20 @@ export const sendDailyMeetingNotify = async (
                         },
                       },
                       {
-                        text: 'Check calendar',
+                        text: eventLink
+                          ? 'View this event'
+                          : 'Check event on calendar',
                         onClick: {
                           openLink: {
-                            url: 'https://calendar.google.com',
+                            url: eventLink || 'https://calendar.google.com',
                           },
                         },
                       },
                       {
-                        text: 'Get a new member',
+                        text: 'Get a new hosted',
                         onClick: {
                           openLink: {
-                            url: `https://team.nqhuy.dev/p/tools/random/${membersEncoded}`,
+                            url: newHostedLink,
                           },
                         },
                       },

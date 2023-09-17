@@ -3,9 +3,11 @@ import { CronService } from './cron.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { I_CRON_SERVICE } from './interfaces/cron.service.interface';
+import { SupportModule } from 'src/public/public.module';
 
 @Module({
   imports: [
+    SupportModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         GG_CHAT_WEBHOOK: Joi.string().required(),

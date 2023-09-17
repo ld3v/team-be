@@ -6,13 +6,16 @@ import {
   AbstractRepository,
   TPaginationOptions,
   TPaginationResult,
-  TSearchOptions,
   queryByKeywordAndPagination,
 } from 'src/app/datasource/repositories';
 import { SPGoogleEvent } from '../entities/sp-g-event.entity';
-import { IGoogleEventRepository } from '../interfaces/support.interface';
+import {
+  IGoogleEventRepository,
+  TSearchEventsOptions,
+} from '../interfaces/support.interface';
 import { CreateSPGEventDTO } from 'src/public/dto/create-event.dto';
 import { arrayToDic } from 'common/func/array-to-dic';
+import * as moment from 'moment';
 
 @Injectable()
 export class SPGoogleEventRepository
@@ -28,12 +31,20 @@ export class SPGoogleEventRepository
   }
 
   public async getEvents(
-    searchOpts: TSearchOptions,
+    { isTodayOnly, ...opts }: TSearchEventsOptions,
     paginationOpts: TPaginationOptions,
   ): Promise<TPaginationResult<SPGoogleEvent>> {
+    console.log(moment().toISOString(), moment().endOf('day').toISOString());
+    const query = this.__query.andWhere(
+      'e.startedAt BETWEEN :startTime AND :finishTime',
+      {
+        startTime: moment().toISOString(),
+        finishTime: moment().endOf('day').toISOString(),
+      },
+    );
     const { items, total } = await queryByKeywordAndPagination<SPGoogleEvent>(
-      this.__query,
-      searchOpts,
+      isTodayOnly ? query : this.__query,
+      opts,
       paginationOpts,
       'e.googleEventSummary LIKE :keyword OR e.googleEventDescription LIKE :keyword',
     );
@@ -84,8 +95,8 @@ export class SPGoogleEventRepository
           summary,
           description,
           meetingLink,
-          startedAt: new Date(startedAt),
-          finishedAt: new Date(finishedAt),
+          startedAt: new Date(startedAt).toISOString(),
+          finishedAt: new Date(finishedAt).toISOString(),
           members: JSON.stringify(attendees.map((a) => a.email)),
         }),
     );
