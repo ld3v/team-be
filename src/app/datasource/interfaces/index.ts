@@ -3,6 +3,7 @@ export * from './program.interface';
 export * from './project.interface';
 export * from './iteration.interface';
 export * from './backlog.interface';
+export * from './support.interface';
 
 export interface IBaseEntity {
   id: string;

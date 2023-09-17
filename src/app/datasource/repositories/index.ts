@@ -8,3 +8,4 @@ export * from './iteration.repository';
 export * from './backlog-item.repository';
 export * from './backlog-task.repository';
 export * from './task-log.repository';
+export * from './sp-g-event.repository';

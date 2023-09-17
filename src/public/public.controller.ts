@@ -1,13 +1,20 @@
-import { Controller, Post, Query, Body } from '@nestjs/common';
+import { Inject, Controller, Post, Query, Body } from '@nestjs/common';
+import { CreateSPGEventsDTO } from './dto';
+import { ISupportService, I_SUPPORT_SERVICE } from './interfaces';
 
 @Controller('support')
 export class PublicController {
-  @Post('g-events/sync')
-  public syncGEvents(
+  constructor(
+    @Inject(I_SUPPORT_SERVICE) private readonly supportService: ISupportService,
+  ) {}
+
+  @Post('g-events/passive-sync')
+  public async syncGEvents(
     @Query('apiKey') apiKey: string,
-    @Body() { events }: { events: any[] },
+    @Body() { events }: CreateSPGEventsDTO,
   ) {
-    console.log(events);
+    console.log(apiKey);
+    await this.supportService.createEventsIfNotExist(events);
 
     return events;
   }

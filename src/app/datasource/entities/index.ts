@@ -7,3 +7,4 @@ export * from './workload.entity';
 export * from './iteration.entity';
 export * from './backlog-task.entity';
 export * from './backlog-item.entity';
+export * from './sp-g-event.entity';

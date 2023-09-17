@@ -5,28 +5,31 @@ import { AbstractEntity } from '.';
 @Entity({ name: 'sp_google_event' })
 export class SPGoogleEvent extends AbstractEntity<SPGoogleEvent> {
   @Column()
-  googleEventId: string;
-
-  @Column()
-  googleEventRecurringId: string;
-  @Column()
-  googleEventName: string;
+  eventId: string;
 
   @Column({
     default: '',
   })
-  googleEventDescription: string;
+  eventRecurringId: string;
 
   @Column()
-  googleEventStartedAt: Date;
-
-  @Column()
-  googleEventFinishedAt: Date;
+  summary: string;
 
   @Column({
     default: '',
   })
-  googleEventMeetingKey: string;
+  description: string;
+
+  @Column()
+  startedAt: Date;
+
+  @Column()
+  finishedAt: Date;
+
+  @Column({
+    default: '',
+  })
+  meetingLink: string;
 
   @Column({
     default: '[]',

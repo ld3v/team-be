@@ -13,6 +13,7 @@ import {
   Member,
   Workload,
   TaskLog,
+  SPGoogleEvent,
 } from './entities';
 import {
   I_PROJECT_REPOSITORY,
@@ -24,6 +25,7 @@ import {
   I_BACKLOG_ITEM_REPOSITORY,
   I_BACKLOG_TASK_REPOSITORY,
   I_TASKLOG_REPOSITORY,
+  I_SP_GOOGLE_EVENT_REPOSITORY,
 } from './interfaces';
 import {
   ProjectRepository,
@@ -35,6 +37,7 @@ import {
   BacklogItemRepository,
   BacklogTaskRepository,
   TaskLogRepository,
+  SPGoogleEventRepository,
 } from './repositories';
 
 @Module({
@@ -64,6 +67,7 @@ import {
       BacklogItem,
       BacklogTask,
       TaskLog,
+      SPGoogleEvent,
     ]),
   ],
   providers: [
@@ -103,6 +107,10 @@ import {
       provide: I_TASKLOG_REPOSITORY,
       useClass: TaskLogRepository,
     },
+    {
+      provide: I_SP_GOOGLE_EVENT_REPOSITORY,
+      useClass: SPGoogleEventRepository,
+    },
   ],
   exports: [
     I_ACCOUNT_REPOSITORY,
@@ -114,6 +122,7 @@ import {
     I_BACKLOG_ITEM_REPOSITORY,
     I_BACKLOG_TASK_REPOSITORY,
     I_TASKLOG_REPOSITORY,
+    I_SP_GOOGLE_EVENT_REPOSITORY,
   ],
 })
 export class DatabaseModule {}

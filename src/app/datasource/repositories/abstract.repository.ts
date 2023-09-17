@@ -1,4 +1,9 @@
-import { DeepPartial, ObjectLiteral, Repository } from 'typeorm';
+import {
+  DeepPartial,
+  ObjectLiteral,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
 import { keys, set } from 'lodash';
 
 export type TPaginationOptions = {
@@ -13,6 +18,33 @@ export type TSearchOptions = {
 export type TPaginationResult<Entity extends ObjectLiteral> = {
   items: Entity[];
   total: number;
+};
+
+export const queryByKeywordAndPagination = async <T>(
+  _query: SelectQueryBuilder<T>,
+  { keyword }: TSearchOptions,
+  { page, size }: TPaginationOptions = {},
+  queryWhere: string,
+): Promise<{
+  _query: SelectQueryBuilder<T>;
+  items: T[];
+  total: number;
+}> => {
+  if (keyword) {
+    _query = _query.andWhere(`( ${queryWhere} )`, { keyword: `%${keyword}%` });
+  }
+  const total = await _query.getCount();
+  if (page !== undefined || size) {
+    _query = _query.offset((page || 0) * size).limit(size || 10);
+  }
+
+  const items = await _query.getMany();
+
+  return {
+    _query,
+    items,
+    total,
+  };
 };
 
 export interface IRepository<Entity extends ObjectLiteral> {
