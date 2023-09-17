@@ -16,7 +16,7 @@ export class CronService {
     @Inject(I_SUPPORT_SERVICE) private readonly supportService: ISupportService,
   ) {}
 
-  @Cron('15 0 18 * * *', {
+  @Cron('* * * * *', {
     name: 'daily_meeting_reminder',
     timeZone: 'Asia/Ho_Chi_Minh',
   })
@@ -38,7 +38,7 @@ export class CronService {
       );
       const memberEmails = JSON.parse(dsEvent.members) as string[];
       const membersJoin = Array.isArray(memberEmails)
-        ? memberEmails.map((m) => m.replace('@one-line.com', ''))
+        ? memberEmails.map((m) => m.replace('.tpv@one-line.com', ''))
         : undefined;
 
       const hook = this.configService.get<string>('GG_CHAT_WEBHOOK');
