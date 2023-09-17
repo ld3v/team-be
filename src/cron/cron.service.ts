@@ -3,15 +3,16 @@ import { Cron } from '@nestjs/schedule';
 import { sendDailyLogworkNotify, sendDailyMeetingNotify } from './jobs';
 import { ConfigService } from '@nestjs/config';
 import { randomMember } from 'common/func';
-import { APM_MEMBERS } from 'common/constants';
+import {
+  APM_MEMBERS,
+  CACHE_HOSTED_HISTORY,
+  CACHE_HOSTED_TTL,
+  DS_NAME_START_WITH,
+} from 'common/constants';
 import { ISupportService, I_SUPPORT_SERVICE } from 'src/public/interfaces';
 import * as moment from 'moment';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-
-const DS_NAME_START_WITH = 'apm: daily scrum';
-const CACHE_HOSTED_HISTORY = 'DAILY_MEETING_HOSTED';
-const CACHE_HOSTED_TTL = 16 * 24 * 60 * 60 * 1000;
 
 @Injectable()
 export class CronService {
