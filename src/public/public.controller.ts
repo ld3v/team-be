@@ -13,7 +13,7 @@ export class PublicController {
     @Query('apiKey') apiKey: string,
     @Body() { events }: CreateSPGEventsDTO,
   ) {
-    console.log(apiKey);
+    console.log(apiKey, events);
     await this.supportService.createEventsIfNotExist(events);
 
     return events;
