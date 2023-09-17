@@ -48,7 +48,7 @@ export class SPGoogleEventRepository
     ids: string[],
   ): Promise<{ items: SPGoogleEvent[]; notExisted: string[] }> {
     const items = await this.__query
-      .andWhere('e.eventId IN (...:ids)', {
+      .andWhere('e.eventId IN (:...ids)', {
         ids: [...ids],
       })
       .getMany();
