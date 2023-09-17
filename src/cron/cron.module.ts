@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { CronService } from './cron.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
@@ -7,6 +8,7 @@ import { SupportModule } from 'src/public/public.module';
 
 @Module({
   imports: [
+    CacheModule.register(),
     SupportModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
