@@ -32,6 +32,10 @@ export class CreateSPGEventDTO {
   @IsString()
   meetingLink?: string;
 
+  @IsOptional()
+  @IsString()
+  eventLink?: string;
+
   @IsString()
   startedAt: string; // ISO8601
 
