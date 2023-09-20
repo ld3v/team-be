@@ -22,6 +22,6 @@ import { SupportModule } from 'src/public/public.module';
       useClass: CronService,
     },
   ],
-  export: [I_CRON_SERVICE],
+  exports: [I_CRON_SERVICE],
 })
 export class CronModule {}
