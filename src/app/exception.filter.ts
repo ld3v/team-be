@@ -4,8 +4,10 @@ import {
   ArgumentsHost,
   HttpException,
 } from '@nestjs/common';
-import ResponseObject from 'common/response';
 import { Request, Response } from 'express';
+import { common } from '@ld3v/nqh-shared';
+
+const { ResponseObject } = common;
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {

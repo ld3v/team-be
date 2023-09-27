@@ -15,12 +15,14 @@ import {
 } from './interfaces/auth.service.interface';
 import { LocalAuthGuard } from './guards';
 import { IRequestWithAccount } from './interfaces';
-import ResponseObject from 'common/response';
 import { Response } from 'express';
 import { IAccountService, I_ACCOUNT_SERVICE } from 'src/account/interfaces';
 import { CreateAccountDTO } from 'src/account/dto/account.dto';
 import MESSAGES from 'common/messages';
 import { CookieStrategy } from './strategies';
+import { common } from '@ld3v/nqh-shared';
+
+const { ResponseObject } = common;
 
 @Controller('auth')
 export class AuthController {

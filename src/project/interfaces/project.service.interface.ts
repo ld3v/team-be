@@ -1,11 +1,12 @@
-import { Account, Project } from 'src/app/datasource/entities';
-import { CreateProjectDTO } from '../dto';
 import {
   TPaginationOptions,
   TPaginationResult,
   TSearchOptions,
-} from 'src/app/datasource/repositories';
-import { TProjectEntity } from 'src/app/datasource/interfaces';
+  TProjectEntity,
+  Account,
+  Project,
+} from '@ld3v/nqh-shared';
+import { CreateProjectDTO } from '../dto';
 import { IIterationPreview } from 'src/iteration/interfaces';
 import { IMemberResponse } from '../../member/interfaces/member.service.interface';
 

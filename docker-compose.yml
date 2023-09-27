@@ -18,6 +18,19 @@ services:
     image: adminer
     ports:
     - 7011:8080
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "${REDIS_PORT}:6379"
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+
 
 volumes:
   d3v_sm_pg_data:

@@ -4,6 +4,7 @@ export const TEXT = `${ALPHABET}${NUMERIC}${ALPHABET.toUpperCase()}`;
 export const ENTITY_NAME_LENGTH = 50;
 export const ENTITY_DESC_LENGTH = 200;
 
+// -- TO BE REMOVE IN THE FUTURE
 export const APM_MEMBERS: Record<string, string> = {
   // DEVs
   'huy.nguyenq': '104428119232398645347',

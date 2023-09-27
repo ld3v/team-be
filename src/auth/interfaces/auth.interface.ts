@@ -1,4 +1,4 @@
-import { Account } from 'src/app/datasource/entities';
+import { Account } from '@ld3v/nqh-shared';
 
 export interface IAuthTokenPayload {
   username: string;

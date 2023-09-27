@@ -1,11 +1,12 @@
-import { Account, Program } from 'src/app/datasource/entities';
-import { CreateProgramDTO } from '../dto';
-import { IProgramResponse, TProgramPreview } from './program.interface';
 import {
   TPaginationOptions,
   TPaginationResult,
   TSearchOptions,
-} from 'src/app/datasource/repositories';
+  Account,
+  Program,
+} from '@ld3v/nqh-shared';
+import { CreateProgramDTO } from '../dto';
+import { IProgramResponse, TProgramPreview } from './program.interface';
 import { TTransformResult } from 'src/app/interfaces/transform';
 
 export const I_PROGRAM_SERVICE = 'I-PROGRAM-SERVICE';

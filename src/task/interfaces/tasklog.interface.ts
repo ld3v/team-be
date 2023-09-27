@@ -1,6 +1,5 @@
-import { Member, TaskLog } from 'src/app/datasource/entities';
+import { TEntityOptionFields, Member, TaskLog } from '@ld3v/nqh-shared';
 import { CreateLogworkDTO } from '../dto';
-import { TEntityOptionFields } from 'src/app/datasource/interfaces';
 import { IMemberResponse } from 'src/project/interfaces';
 
 export type TTaskLogEntity = Omit<TaskLog, TEntityOptionFields>;

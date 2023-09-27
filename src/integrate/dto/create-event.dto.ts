@@ -10,7 +10,7 @@ import {
 export enum SPGoogleEventAttendeeResStatusEnum {
   UNCONFIRMED = 'needsAction',
   ACCEPTED = 'accepted',
-  REJECTED = 'rejected',
+  DECLINED = 'declined',
 }
 
 export class CreateSPGEventDTO {

@@ -7,13 +7,14 @@ import {
   IUpdateTaskInput,
   ITaskLogResponse,
 } from './interfaces';
-import { BacklogTask, TaskLog } from 'src/app/datasource/entities';
 import {
   IBacklogTaskRepository,
   ITaskLogRepository,
   I_BACKLOG_TASK_REPOSITORY,
   I_TASKLOG_REPOSITORY,
-} from 'src/app/datasource/interfaces';
+  BacklogTask,
+  TaskLog,
+} from '@ld3v/nqh-shared';
 import { TTransformResult } from 'src/app/interfaces';
 import { CreateTaskDTO } from './dto';
 import { IMemberService, I_MEMBER_SERVICE } from 'src/project/interfaces';

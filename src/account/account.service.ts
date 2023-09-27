@@ -4,12 +4,12 @@ import {
   IAccountResponse,
   TAccountPreview,
 } from './interfaces';
-import { Account } from 'src/app/datasource/entities/account.entity';
-
 import {
   IAccountRepository,
   I_ACCOUNT_REPOSITORY,
-} from 'src/app/datasource/interfaces/account.interface';
+  Account,
+} from '@ld3v/nqh-shared';
+
 import { CreateAccountDTO } from './dto/account.dto';
 import ServiceError from 'common/errors/service.error';
 

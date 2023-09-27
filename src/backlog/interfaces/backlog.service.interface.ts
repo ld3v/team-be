@@ -1,8 +1,4 @@
-import {
-  BacklogItem,
-  BacklogTask,
-  Iteration,
-} from 'src/app/datasource/entities';
+import { BacklogItem, BacklogTask, Iteration } from '@ld3v/nqh-shared';
 import { TTransformResult } from 'src/app/interfaces';
 import { IBacklogResponse, ICreateBacklogItem, TBacklogPreview } from '.';
 

@@ -1,4 +1,4 @@
-import { Account } from 'src/app/datasource/entities/account.entity';
+import { Account } from '@ld3v/nqh-shared';
 import { IAccountResponse, TAccountPreview } from './account.interface';
 import { CreateAccountDTO } from '../dto/account.dto';
 

@@ -6,14 +6,12 @@ import {
   TBacklogPreview,
 } from './interfaces';
 import {
+  IBacklogItemRepository,
+  I_BACKLOG_ITEM_REPOSITORY,
   BacklogItem,
   BacklogTask,
   Iteration,
-} from 'src/app/datasource/entities';
-import {
-  IBacklogItemRepository,
-  I_BACKLOG_ITEM_REPOSITORY,
-} from 'src/app/datasource/interfaces';
+} from '@ld3v/nqh-shared';
 import { TTransformResult } from 'src/app/interfaces/transform';
 
 @Injectable()

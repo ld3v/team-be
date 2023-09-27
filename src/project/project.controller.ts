@@ -15,10 +15,12 @@ import {
   I_PROJECT_SERVICE,
 } from './interfaces';
 import { JWTAuthGuard } from 'src/auth/guards';
-import ResponseObject from 'common/response';
 import { CreateProjectDTO, SearchProjectsDTO } from './dto';
 import { IRequestWithAccount } from 'src/auth/interfaces';
 import { IProgramService, I_PROGRAM_SERVICE } from 'src/program/interfaces';
+import { common } from '@ld3v/nqh-shared';
+
+const { ResponseObject } = common;
 
 @Controller('projects')
 export class ProjectController {

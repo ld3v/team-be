@@ -1,9 +1,13 @@
-import { BacklogTask, Member, TaskLog } from 'src/app/datasource/entities';
+import {
+  BacklogTask,
+  Member,
+  TaskLog,
+  TBacklogTaskEntity,
+} from '@ld3v/nqh-shared';
 import { TTransformResult } from 'src/app/interfaces';
 import { ICreateTaskLogInput, ITaskLogResponse } from '.';
 import { CreateTaskDTO, UpdateTaskDTO } from '../dto';
 import { IMemberResponse } from 'src/project/interfaces';
-import { TBacklogTaskEntity } from 'src/app/datasource/interfaces';
 
 export const I_BACKLOG_TASK_SERVICE = 'I-BACKLOG-TASK-SERVICE';
 

@@ -1,5 +1,4 @@
-import { Member, Project } from 'src/app/datasource/entities';
-import { TEntityOptionFields } from 'src/app/datasource/interfaces';
+import { TEntityOptionFields, Member, Project } from '@ld3v/nqh-shared';
 
 export const I_MEMBER_SERVICE = 'I-MEMBER-SERVICE';
 

@@ -1,5 +1,5 @@
 import { TAccountPreview } from 'src/account/interfaces';
-import { TProgramEntity } from 'src/app/datasource/interfaces';
+import { TProgramEntity } from '@ld3v/nqh-shared';
 import { TProjectPreview } from 'src/project/interfaces';
 
 export interface IProgramResponse
