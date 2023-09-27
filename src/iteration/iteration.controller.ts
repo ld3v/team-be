@@ -14,12 +14,14 @@ import {
   I_ITERATION_SERVICE,
 } from './interfaces';
 import { JWTAuthGuard } from 'src/auth/guards';
-import ResponseObject from 'common/response';
 import { CreateIterationDTO } from './dto';
 import { IRequestWithAccount } from 'src/auth/interfaces';
 import * as moment from 'moment';
 import { IProjectService, I_PROJECT_SERVICE } from 'src/project/interfaces';
 import MESSAGES from 'common/messages';
+import { common } from '@ld3v/nqh-shared';
+
+const { ResponseObject } = common;
 
 @Controller('iterations')
 export class IterationController {

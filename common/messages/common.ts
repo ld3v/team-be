@@ -4,7 +4,8 @@ type TModule =
   | 'iteration'
   | 'backlog'
   | 'task'
-  | 'account';
+  | 'account'
+  | 'integrate';
 
 const COMMON_MESSAGES = {
   NOT_EXIST: (module: TModule) =>

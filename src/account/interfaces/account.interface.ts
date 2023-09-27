@@ -1,4 +1,4 @@
-import { TAccountEntity } from 'src/app/datasource/interfaces/account.interface';
+import { TAccountEntity } from '@ld3v/nqh-shared';
 
 export interface IAccountResponse
   extends Omit<

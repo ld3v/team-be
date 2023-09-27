@@ -18,13 +18,15 @@ import {
   IIterationService,
   I_ITERATION_SERVICE,
 } from 'src/iteration/interfaces';
-import ResponseObject from 'common/response';
 import MESSAGES from 'common/messages';
 import { CreateTaskDTO } from 'src/task/dto';
 import {
   IBacklogTaskService,
   I_BACKLOG_TASK_SERVICE,
 } from 'src/task/interfaces';
+import { common } from '@ld3v/nqh-shared';
+
+const { ResponseObject } = common;
 
 @Controller('backlog')
 export class BacklogController {

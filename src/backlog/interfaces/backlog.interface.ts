@@ -1,5 +1,4 @@
-import { Project } from 'src/app/datasource/entities';
-import { TBacklogItemEntity } from 'src/app/datasource/interfaces';
+import { Project, TBacklogItemEntity } from '@ld3v/nqh-shared';
 
 export interface ICreateBacklogItem {
   name: string;

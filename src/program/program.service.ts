@@ -5,23 +5,22 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import {
+  TPaginationOptions,
+  TPaginationResult,
+  TSearchOptions,
   IProgramRepository,
   I_PROGRAM_REPOSITORY,
-} from 'src/app/datasource/interfaces';
+  Account,
+  Program,
+} from '@ld3v/nqh-shared';
 import {
   IProgramResponse,
   IProgramService,
   TProgramPreview,
 } from './interfaces';
 import { CreateProgramDTO } from './dto';
-import { Account, Program } from 'src/app/datasource/entities';
 import { IProjectService, I_PROJECT_SERVICE } from 'src/project/interfaces';
 import { IAccountService, I_ACCOUNT_SERVICE } from 'src/account/interfaces';
-import {
-  TPaginationOptions,
-  TPaginationResult,
-  TSearchOptions,
-} from 'src/app/datasource/repositories';
 import { TTransformResult } from 'src/app/interfaces/transform';
 import MESSAGES from 'common/messages';
 

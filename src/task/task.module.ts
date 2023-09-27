@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { BacklogTaskService } from './task.service';
-import { DatabaseModule } from 'src/app/datasource/database.module';
+import { RepositoriesModule } from '@ld3v/nqh-shared';
 import { I_BACKLOG_TASK_SERVICE } from './interfaces';
 import { MemberModule } from 'src/member/member.module';
 
 @Module({
-  imports: [DatabaseModule, MemberModule],
+  imports: [MemberModule],
   providers: [
     {
       provide: I_BACKLOG_TASK_SERVICE,

@@ -4,16 +4,18 @@ import * as Joi from 'joi';
 import { AppController } from './app/app.controller';
 import { ProgramModule } from 'src/program/program.module';
 import { ProjectModule } from 'src/project/project.module';
-import { DatabaseModule } from './app/datasource/database.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { AccountModule } from 'src/account/account.module';
 import { IterationModule } from './iteration/iteration.module';
 import { BacklogModule } from './backlog/backlog.module';
 import { TaskModule } from './task/task.module';
 import { MemberModule } from './member/member.module';
-import { CronModule } from './cron/cron.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { PublicModule } from './public/public.module';
+import { IntegrateModule } from './integrate/integrate.module';
+import { RepositoriesModule } from '@ld3v/nqh-shared';
+import { common } from '@ld3v/nqh-shared';
+
+const { env } = common;
 
 @Module({
   imports: [
@@ -27,14 +29,22 @@ import { PublicModule } from './public/public.module';
     ProjectModule,
     AuthModule,
     AccountModule,
-    AppModule,
-    DatabaseModule,
+    RepositoriesModule.forRoot(
+      {
+        database: env().DB_DATABASE,
+        host: env().DB_HOST,
+        port: env().DB_PORT,
+        username: env().DB_USERNAME,
+        password: env().DB_PASSWORD,
+      },
+      undefined,
+      true,
+    ),
     IterationModule,
     BacklogModule,
     TaskModule,
     MemberModule,
-    CronModule,
-    PublicModule,
+    IntegrateModule,
   ],
   controllers: [AppController],
 })

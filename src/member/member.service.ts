@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IMemberService, IMemberResponse } from '../project/interfaces';
-import { Member, Project } from 'src/app/datasource/entities';
 import {
   IMemberRepository,
   I_MEMBER_REPOSITORY,
-} from 'src/app/datasource/interfaces';
+  Member,
+  Project,
+} from '@ld3v/nqh-shared';
 
 @Injectable()
 export class MemberService implements IMemberService {

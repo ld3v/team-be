@@ -18,9 +18,11 @@ import {
 import { JWTAuthGuard } from 'src/auth/guards';
 import { CreateProgramDTO } from './dto';
 import { IRequestWithAccount } from 'src/auth/interfaces';
-import ResponseObject from 'common/response';
 import { SearchPaginationDTO } from 'src/app/dto';
 import MESSAGES from 'common/messages';
+import { common } from '@ld3v/nqh-shared';
+
+const { ResponseObject } = common;
 
 @Controller('programs')
 export class ProgramController {

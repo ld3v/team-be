@@ -11,11 +11,12 @@ import {
   ICreateIterationInput,
   IIterationPreview,
 } from './interfaces';
-import { Iteration, Project } from 'src/app/datasource/entities';
 import {
   IIterationRepository,
   I_ITERATION_REPOSITORY,
-} from 'src/app/datasource/interfaces';
+  Iteration,
+  Project,
+} from '@ld3v/nqh-shared';
 import { IProjectService, I_PROJECT_SERVICE } from 'src/project/interfaces';
 import MESSAGES from 'common/messages';
 import { TTransformResult } from 'src/app/interfaces/transform';

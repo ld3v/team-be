@@ -1,4 +1,4 @@
-import { Iteration, Project } from 'src/app/datasource/entities';
+import { Iteration, Project } from '@ld3v/nqh-shared';
 import {
   ICreateIterationInput,
   IIterationResponse,

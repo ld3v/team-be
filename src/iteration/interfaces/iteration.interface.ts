@@ -1,6 +1,5 @@
-import { TIterationEntity, TTimeRange } from 'src/app/datasource/interfaces';
+import { TIterationEntity, TTimeRange, Project } from '@ld3v/nqh-shared';
 import { CreateIterationDTO } from '../dto';
-import { Project } from 'src/app/datasource/entities';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IIterationResponse

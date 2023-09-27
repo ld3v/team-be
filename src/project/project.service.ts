@@ -13,22 +13,18 @@ import {
   TAccessibleAs,
 } from './interfaces';
 import {
+  IProjectRepository,
+  I_PROJECT_REPOSITORY,
+  TSearchOptions,
+  TPaginationOptions,
+  TPaginationResult,
   Account,
   Iteration,
   Project,
   Member,
-} from 'src/app/datasource/entities';
+} from '@ld3v/nqh-shared';
 import { CreateProjectDTO } from './dto';
-import {
-  IProjectRepository,
-  I_PROJECT_REPOSITORY,
-} from 'src/app/datasource/interfaces';
 import { IProgramService, I_PROGRAM_SERVICE } from 'src/program/interfaces';
-import {
-  TSearchOptions,
-  TPaginationOptions,
-  TPaginationResult,
-} from 'src/app/datasource/repositories';
 import { TTransformResult } from 'src/app/interfaces/transform';
 import MESSAGES from 'common/messages';
 import {
