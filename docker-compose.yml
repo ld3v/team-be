@@ -14,6 +14,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     env_file:
       - ./.env
+    networks:
+      - d3v_sm_network_backend
   adminer:
     links:
     - db:postgres
@@ -22,7 +24,9 @@ services:
     image: adminer
     ports:
     - 7011:8080
-
-
+    networks:
+      - d3v_sm_network_backend
 volumes:
   d3v_sm_pg_data:
+networks:
+  d3v_sm_network_backend:

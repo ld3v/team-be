@@ -90,6 +90,33 @@ export class IntegrateController {
     const newEvents = await this.appIntegrateService.createEventsIfNotExist(
       events,
     );
-    return ResponseObject.success(newEvents);
+    return ResponseObject.success({ events: newEvents });
+  }
+  @Post('g-events/trigger')
+  public async triggerGEvent(
+    @Query() { appId, APIKey }: { appId?: string; APIKey?: string },
+    @Body()
+    {
+      isIncludeHosted = false,
+      env = 'DEV',
+    }: { isIncludeHosted?: boolean; env?: string },
+  ) {
+    await this.integrateService.validate(appId, APIKey);
+
+    const isSuccess = await this.appIntegrateService.triggerDS({
+      isIncludeHosted,
+      env,
+    });
+    return ResponseObject.success(isSuccess);
+  }
+
+  @Post('g-events/hosted')
+  public async getGEventHosted(
+    @Query() { appId, APIKey }: { appId?: string; APIKey?: string },
+  ) {
+    await this.integrateService.validate(appId, APIKey);
+
+    const members = await this.appIntegrateService.getHosted();
+    return ResponseObject.success({ members });
   }
 }

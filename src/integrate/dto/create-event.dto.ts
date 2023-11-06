@@ -27,10 +27,6 @@ export class CreateSPGEventDTO {
 
   @IsOptional()
   @IsString()
-  description?: string;
-
-  @IsOptional()
-  @IsString()
   meetingLink?: string;
 
   @IsOptional()
@@ -59,7 +55,7 @@ export class CreateSPGEventsDTO {
 
 class AttendeeDTO {
   @IsString()
-  email: string;
+  username: string;
 
   @IsEnum(SPGoogleEventAttendeeResStatusEnum)
   status: SPGoogleEventAttendeeResStatusEnum;
